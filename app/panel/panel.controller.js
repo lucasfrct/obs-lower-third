@@ -94,20 +94,23 @@
         $scope.select = (lower)=> {
 
             var active = !lower.active
+            
             unselect()
+
             lower.active = active
             lower.effect = $scope.control.effect
-            $scope.control.select = lower
             
-            console.log("SELECT: ", $scope.control.select)
+            $scope.control.select = lower
             
             if(lower.active) {
                 broadcast.send(lower)
             } else {
                 broadcast.send(null)
                 $scope.updade(lower)
+                reset($scope.control.select)
             }
-
+            
+            console.log("SELECT: ", $scope.control.select)
         }
 
         $scope.toggleModal = ()=> {
@@ -144,6 +147,27 @@
                 $scope.updade(lower)
                 return lower
             })
+        }
+
+        function reset(lower){
+            
+            lower.active = false,
+            lower.title = "",
+
+            lower.scale.x = 0;
+            lower.scale.y = 0; 
+            lower.scale.size = 0
+
+            lower.image.src = ""
+            lower.image.x = 0, 
+            lower.image.y = 0, 
+            lower.image.size = 10
+            
+            lower.text.src = ""
+            lower.text.y = 0
+            lower.text.x = 0 
+            lower.text.size = 7
+            
         }
 
     }

@@ -22,45 +22,49 @@
         
         function link($scope, element, attr) {
 
-            var startX = 0, startY = 0, x = 0, y = 0;
+            var position = { x: 0, y: 0, limit: 3 }
             
-            var position = { x: 0, y: 0 }
+            var start = { x: 0, y: 0 }
+            
+            var show = { x: 0, y: 0, width: 0, height: 0, borderInit: 0, borderEnd: 0 }
             
             var container = element.parent()
+
+            show.width = container[0].clientWidth
+
+            show.heigth = container[0].clientHeight
+            
+            show.borderInit = position.limit
+            show.borderEnd = (100 - position.limit)
 
             element.on('mousedown', (event)=> {
     
                 // Prevent default dragging of selected content
                 event.preventDefault();
 
-                startY = event.screenY - y;
-                startX = event.screenX - x;
-                
+                show.x = element[0].offsetLeft
+                show.y = element[0].offsetTop
+
+                start.y = (event.screenY - show.y);
+                start.x = (event.screenX - show.x);
+
                 $document.on('mousemove', mousemove);
-                $document.on('mouseup', mouseup); 
+                $document.on('mouseup', mouseup);
 
             });
     
             function mousemove(event) {
                 
                 //console.log("DRAG MOVE")
-                y = (event.screenY - startY);
-                x = (event.screenX - startX);
+                position = Position(event)
 
-                var width = container[0].clientWidth
-                var heigth = container[0].clientHeight
-
-                var perW = Number((100 / width) * x)
-                var perH = Number((100 / heigth) * y)
-
-                element.css({ top: perH+'%', left: perW+"%" });
-                
-                position = { x: perW, y: perH }
+                element.css({ top: position.y+'%', left: position.x+"%" });
                 
             }
             
             function mouseup() {
 
+            
                 $document.off('mousemove', mousemove);
                 $document.off('mouseup', mouseup);
 
@@ -74,6 +78,26 @@
 
                 $scope.$apply()
                 $scope.updade($scope.lower)
+            }
+
+            function Position(event){
+                
+                show.x = (event.screenX - start.x);
+                show.y = (event.screenY - start.y);
+
+                position.x = Number((100 / show.width) * show.x)
+                position.y = Number((100 / show.heigth) * show.y)
+
+                console.log("position", position)
+
+                // Limitando as bordas
+
+                if (position.x <= show.borderInit) { position.x = show.borderInit }
+                if (position.y <= show.borderInit) { position.y = show.borderInit }
+                if (position.x >= show.borderEnd) { position.x = show.borderEnd }
+                if (position.y >= show.borderEnd) { position.y = show.borderEnd }
+
+                return position
             }
         
         }
