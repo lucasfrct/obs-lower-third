@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br" ng-app="obs.lower.third">
+    <head>
+        <title>OBS Lower Third - Display</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" href="assets/css/reset.css">
+        <link rel="stylesheet" href="assets/fonts/font.css">
+        <link rel="stylesheet" href="app/display/screen.css">
+        <link rel="stylesheet" href="app/display/animation.css">
+
+        <script src="lib/angular.min.js"></script>
+
+        <script src="app/obs.lower.third.module.js"></script>
+
+        <script src="app/broadcast/broadcast.service.js"></script>
+
+        <script src="app/display/display.controller.js"></script>
+
+    </head>
+
+    <body ng-controller="displaycontroller">
+
+        <section id="screen" class="screen">
+
+            <div 
+                class="show animation {{lower.effect.type}} {{ (lower.active) ? 'visible' : '' }}"
+                style="animation-duration: {{lower.effect.on}}ms !important;"
+            >
+
+                <img src="{{lower.image.src}}" 
+                    style="
+                        height: {{lower.image.size}}%;
+                        top: {{lower.image.y}}%;
+                        left: {{lower.image.x}}%;
+                    " 
+                />
+                <span
+                    style="
+                        font-size: calc((((100vw -16px)* 0.77) / 100) * {{lower.text.size}} );
+                        top: {{lower.text.y}}%;
+                        left: {{lower.text.x}}%;
+                    " 
+                >{{lower.text.src}}</span>
+
+            </div>
+            
+        </section>
+    </body>
+</html>

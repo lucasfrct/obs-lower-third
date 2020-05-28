@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-br" ng-app="obs.lower.third">
+    <head>
+        <title>OBS Lower Third - Control Panel</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" href="assets/css/reset.css">
+        <link rel="stylesheet" href="assets/fonts/font.css">
+        <link rel="stylesheet" href="app/panel/panel.css">
+        <link rel="stylesheet" href="app/display/screen.css">
+
+        <script src="lib/angular.min.js"></script>
+
+        <script src="app/obs.lower.third.module.js"></script>
+
+        <script src="app/drag/drag.directive.js"></script>
+
+        <script src="app/storage/storage.service.js"></script>
+        <script src="app/broadcast/broadcast.service.js"></script>
+
+        <script src="app/panel/panel.controller.js"></script>
+
+    </head>
+
+    <body class="panel-container" ng-controller="panelcontroller">
+        
+        <header class="panel-header">
+            
+            <em>Fade</em>
+            
+            <em>Effect</em>
+
+            <div class="input-spinner">
+                <span ng-click="fade('-')" >-</span>
+                <input type="text" ng-model="control.effect.on">
+                <span ng-click="fade('+')">+</span>
+            </div>
+            
+            <div class="input-spinner">
+                <span ng-click="effectsCtrl('-')">-</span>
+                <input type="text" ng-model="control.effect.type" readonly>
+                <span ng-click="effectsCtrl('+')">+</span>
+            </div>
+
+        </header>
+        
+        <main class="panel-main">
+
+            <div class="panel-controls">
+                <strong ng-click="downImage(control.select)">-</strong>
+                <strong ng-click="upImage(control.select)">+</strong>
+                <strong ng-click="upText(control.select)">+</strong>
+                <strong ng-click="downText(control.select)">-</strong>
+            </div>
+            
+            <section id="screen" class="screen preview">
+                
+                <div class="show {{ (control.select.active) ? 'visible' :'' }}">
+                    
+                    <img 
+                        src="{{control.select.image.src}}" 
+                        style="
+                            height: {{control.select.image.size}}%; 
+                            top: {{control.select.image.y}}%; 
+                            left: {{control.select.image.x}}%;
+                        "
+                        lower="control.select"
+                        updade="updade"
+                        draggable
+                    >
+                    
+                    <span
+                        style="
+                            font-size: calc((((100vw - 16px) * 0.77) / 100) * {{control.select.text.size}} );
+                            top: {{control.select.text.y}}%; 
+                            left: {{control.select.text.x}}%;
+                        " 
+                        lower="control.select"
+                        updade="updade"
+                        draggable
+                    >{{control.select.text.src}}</span>
+                </div>
+
+            </section>
+
+            <section class="panel-lowers">
+
+                <div 
+                    class="lower {{ (lo.active) ? 'active' : '' }}" 
+                    ng-repeat="lo in lowers" 
+                    ng-click="select(lo)"
+                    ng-dblclick="delete(lo)"
+                >
+                    <span>{{ lo.title | limitTo: 15 }}</span>
+                    <span>{{ lo.text.src | limitTo: 20 }}</span>
+                </div>
+
+                <div class="lower lower-add" ng-click="add()">
+                    <span>+</span>
+                </div>
+
+            </section>
+
+            <section class="modal panel-add {{ (control.modal) ? 'active' :'' }}" >
+                <div>
+                    <span>Add Lower Trird</span>
+                    <form autocomplete="off">
+                        <input name="title" placeholder="Título" ng-model="lower.title" >
+                        <input name="image" placeholder="Caminho da imagem" ng-model="lower.image.src">
+                        <textarea name="text" placeholder="Texto" rows="4" ng-model="lower.text.src"></textarea>
+                        <button ng-click="save(lower)">Save</button>
+                        <button ng-click="add(lower)">Cancel</button>
+                    </form>
+                </div>
+            </section>
+
+            <section class="modal panel-remove {{ (control.remove) ? 'active' :'' }}" >
+                <div>
+                    <span>Remover item:</span>
+                    <form autocomplete="off">
+                        <span>{{ control.select.title}}</span>
+                        <button ng-click="remove(control.select)">Remover</button>
+                        <button ng-click="delete(control.select)">Cancelar</button>
+                    </form>
+                </div>
+            </section>
+
+        </main>
+    </body>
+</html>
