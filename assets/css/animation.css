@@ -1,55 +1,56 @@
 
-.animation {
-    transition: all 3s ease-in-out !important;
-
-    animation-duration: 600ms !important;
-    animation-delay: 0 !important;
+body .show.animation {
+    animation-duration: 20ms;
+    animation-delay: 0.01s;
     animation-fill-mode: forwards !important;
-    
+    will-change: transform, opacity;
 }
 
-.slide-in {
-    transform: translateX(-100%) !important;
-    animation-name: slide-in;
-    animation-timing-function: ease-out;
+body .fade {
+ opacity: 0;
 }
 
-.slide-out {
-    transform: translateX(0%) !important;
-    animation-name: slide-out;
-    animation-timing-function: ease-in;
-    animation-fill-mode: forwards !important;
-}
-    
-@keyframes slide-in {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(0%); }
-}
-
-    
-@keyframes slide-out {
-    0% { transform: translateX(0%); }
-    100% { transform: translateX(-100%); }
-}
-
-.fade-in {
+body .fade.fade-in {
     opacity: 0;
     animation-name: fade-in;
     animation-timing-function: ease-out;
 }
 
-.fade-out {
+body .fade.fade-out {
     opacity: 1;
     animation-name: fade-out;
     animation-timing-function: ease-in;
 }
 
 @keyframes fade-in {
-    0% { opacity: 0; } 
-    100% { opacity: 1; }
+    to { opacity: 1; }
 }
 
 @keyframes fade-out {
-    0% { opacity: 1; }
-    100% { opacity: 0; }
+    to { opacity: 0; }
+}
+
+body .slide {
+    transform: translateX(-100%);
+}
+
+body .slide-in {
+    transform: translateX(-100%);
+    animation-name: slide-in;
+    animation-timing-function: ease-out;
+}
+
+body .slide-out {
+    transform: translateX(0%);
+    animation-name: slide-out;
+    animation-timing-function: ease-in;
+}
+    
+@keyframes slide-in {
+    to { transform: translateX(0%); }
+}
+
+    
+@keyframes slide-out {
+    to { transform: translateX(-100%); }
 }

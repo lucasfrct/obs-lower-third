@@ -25,23 +25,21 @@
         <section id="screen" class="screen">
 
             <div 
-                class="show animation {{lower.effect.type}} {{ (lower.active) ? 'visible' : '' }}"
-                style="animation-duration: {{lower.effect.on}}ms !important;"
+                class="
+                    show animation 
+                    {{control.effect.type}} 
+                    {{control.effect.state}}
+                    {{ (lower.active) ? 'visible' : '' }}
+                " 
+                style="animation-duration: {{control.effect.on}}ms;"
             >
 
-                <img src="{{lower.image.src}}" 
-                    style="
-                        height: {{lower.image.size}}%;
-                        top: {{lower.image.y}}%;
-                        left: {{lower.image.x}}%;
-                    " 
-                />
-                <span
+                <span 
                     style="
                         font-size: calc((((100vw -16px)* 0.77) / 100) * {{lower.text.size}} );
                         top: {{lower.text.y}}%;
                         left: {{lower.text.x}}%;
-                    " 
+                    "
                 >{{lower.text.src}}</span>
 
             </div>

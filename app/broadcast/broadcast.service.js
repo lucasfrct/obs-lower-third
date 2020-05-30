@@ -18,15 +18,22 @@
             that.bc = new BroadcastChannel('obs-lower-channel')
         }
 
-        that.send = (lower)=> {
-            that.bc.postMessage(JSON.stringify(angular.copy(lower)))
+        that.send = (eventName, lower)=> {
+            var send = {name: eventName, data: angular.copy(lower)}
+            that.bc.postMessage(send)
         }
 
-        that.receive = (callback)=> {
-            that.bc.onmessage = function (ev) {
-                callback(JSON.parse(ev.data))
-            }
+        that.receive = (eventName, callback)=> {
+            that.bc.addEventListener("message", (event)=> {
+                if (event.data.name == eventName) { callback(event.data.data) }
+            })
         }
     }
 
 })()
+
+/*
+b.send("asdf", {})
+b.receive("asdf", (data)=> {
+})
+*/

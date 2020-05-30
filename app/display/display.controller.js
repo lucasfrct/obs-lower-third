@@ -12,8 +12,13 @@
 
     function DisplayController($scope, $timeout, broadcast) {
 
+        $scope.control = {
+            effect: { on: 600, type: "fade", state: ""},
+        }
+
         $scope.lower = {            
             active: false,
+            loaded: false,
             title: "",
             effect: { on: 600, type: "slide" },
             scale: { x: 0, y: 0, size: 0 },
@@ -23,30 +28,54 @@
         
         broadcast.on()
 
-        broadcast.receive((lower)=> {
+        broadcast.receive("control", (control)=> {
+            $scope.control = {...$scope.control, ...control}
+            console.log("RECEIVE CONTROL", control)
+        })
 
-            if(null === lower) {
-                Out($scope.lower)
-            } else {
-                In(lower)
-            }
-
+        broadcast.receive("lower", (lower)=> {
+            
+            if(null != lower && lower.title.length > 0) { In(lower) }
+            
+            if (null === lower) { Out($scope.lower) }
+            
             $scope.$apply()
+
+            console.log("RECEIVE LOWER", lower)
         })
 
         function In(lower) {
-            console.log("IN", lower)
-            lower.effect.type = lower.effect.type+"-in"
-            $scope.lower = lower
+            
+            $scope.control.effect.state = replace($scope.control.effect.type, "-out", "-in")
+            
+            $scope.$apply()
+
+            $scope.lower = {...lower}
+            
+            $scope.$apply()
+            
+            console.log("IN", $scope.lower)
+
         }
 
         function Out(lower) {
-            console.log("OUT")
-            lower.effect.type = lower.effect.type.replace("-in", "")+"-out"
+
+            $scope.control.effect.state = replace($scope.control.effect.type, "-in", "-out")
 
             $timeout(()=> {
                 lower.active = false
-            }, (lower.effect.on + 100))
+
+                $scope.$apply()
+                
+                broadcast.send(lower)
+                
+                console.log("OUT", lower)
+
+            }, Number($scope.control.effect.on))
+        }
+
+        function replace(type, param1, param2) {
+            return String(String(type.replace(param1, ""))+param2)
         }
     }
 

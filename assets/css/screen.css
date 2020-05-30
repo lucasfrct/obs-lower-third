@@ -4,8 +4,7 @@
     outline: 0;
     left: 0;
     top: 0;
-    overflow: hidden !important;
-    transform: scale(1);
+    overflow: hidden;
 }
 
 .screen {
@@ -13,10 +12,12 @@
     height: calc((100vw - 16px) / 1.778);
     position: relative;
     box-sizing: border-box;
-    border: solid 1px rgba(0,0,0,0.1);
+    border: solid 1px rgba(0,0,0,1);
     margin: 0px auto;
     color: #FFF;
-    text-shadow: 0px 0px 30px rgba(0,0,0,0);
+    text-shadow: 0px 0px 2em rgba(0,0,0,0.2);
+    -webkit-text-stroke: 0.1px rgba(0,0,0,0.5); 
+    text-stroke: 0.1px rgba(0,0,0,0.5);
 }
 
 .screen * {
@@ -25,11 +26,13 @@
     margin: 0;
     padding: 0;
     color: inherit;
+    text-shadow: inherit;
 }
 
 .screen .show {
     width: 100%;
     height: 100%;
+    will-change: transform, transition;
     visibility: hidden;
 }
 
@@ -44,6 +47,7 @@
     top: 0%;
     left: 0%;
     line-height: calc(100% * 0.73);
+    z-index: 1;
 }
 
 .screen.show img {
@@ -70,10 +74,15 @@
     outline: solid 1px rgba(0,0,0,0.3);
 }
 
-.screen.preview .show {
+.screen.preview .show.visible {
     border: solid 1px #FFF;
 }
 
 .screen.preview .show > * {
     cursor: pointer;
-}
+    border: solid 0.1px transparent;
+    min-width: 20px;
+    min-height: 5px;
+    box-sizing: border-box;
+    padding: 4px;
+}   

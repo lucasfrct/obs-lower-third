@@ -22,34 +22,32 @@
         
         function link($scope, element, attr) {
 
-            var container = element.parent()
-
             var orientation = { x: 0, y: 0}
 
             var start = { ...orientation }
 
             var position = { limit: 3, ...orientation }
             
-            var show = { width: 0, height: 0, borderInit: 0, borderEnd: 0, ...orientation }
-
-            show.width = container[0].clientWidth
-            show.heigth = container[0].clientHeight
+            var container = { ...Parent(), borderInit: 0, borderEnd: 0, ...orientation }
             
-            show.borderInit = position.limit
-            show.borderEnd = (100 - position.limit)
+            container.borderInit = position.limit
+            container.borderEnd = (100 - position.limit)
 
             element.on('mousedown', (event)=> {
     
                 // Prevent default dragging of selected content
                 event.preventDefault();
 
-                show.x = element[0].offsetLeft
-                show.y = element[0].offsetTop
+                container = {...Parent(), ...container}
 
-                start.y = (event.screenY - show.y);
-                start.x = (event.screenX - show.x);
+                container.x = element[0].offsetLeft
+                container.y = element[0].offsetTop
+
+                start.y = (event.screenY - container.y);
+                start.x = (event.screenX - container.x);
 
                 Apply(Position(event))
+                //selected(true)
 
                 $document.on('mousemove', mousemove);
                 $document.on('mouseup', mouseup);
@@ -70,33 +68,48 @@
                     $scope.lower.image.x = position.x
                     $scope.lower.image.y = position.y
                 }
-    
+
                 $scope.updade($scope.lower)
                 $scope.$apply()
             }
 
             function Position(event){
                 
-                show.x = (event.screenX - start.x);
-                show.y = (event.screenY - start.y);
+                container.x = (event.screenX - start.x)
+                container.y = (event.screenY - start.y)
 
-                position.x = Number((100 / show.width) * show.x)
-                position.y = Number((100 / show.heigth) * show.y)
+                position.x = Number(((100 / container.width) * container.x) + 0.01)
+                position.y = Number(((100 / container.heigth) * container.y ) + 0.01)
                 
                 // Limitando as bordas
-                
-                if (position.x <= show.borderInit) { position.x = show.borderInit }
-                if (position.y <= show.borderInit) { position.y = show.borderInit }
-                if (position.x >= show.borderEnd) { position.x = show.borderEnd }
-                if (position.y >= show.borderEnd) { position.y = show.borderEnd }
-                
-                console.log("position", position)
+                if (position.x <= container.borderInit) { position.x = container.borderInit }
+                if (position.y <= container.borderInit) { position.y = container.borderInit }
+                if (position.x >= container.borderEnd) { position.x = container.borderEnd }
+                if (position.y >= container.borderEnd) { position.y = container.borderEnd }
 
                 return position
             }
 
             function Apply(position) {
                 element.css({ top: String(position.y)+'%', left: String(position.x)+"%" });
+            }
+
+            function selected(state = false) {
+
+                var setBorder = ""
+
+                if (state) {
+                    setBorder = "#F00"
+                } else {
+                    setBorder = "transparent";
+                }
+
+                element.css({ borderColor: setBorder })
+            }
+
+            function Parent() {
+                var parent = element.parent()
+                return { width: parent[0].clientWidth, heigth: parent[0].clientHeight }
             }
         
         }

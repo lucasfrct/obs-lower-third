@@ -8,17 +8,27 @@
 
     angular
         .module("obs.lower.third")
-        .controller("panelcontroller",  ["$scope", "storage.service", "broadcast.service", PanelController])
+        .controller("panelcontroller",  [
+            "$scope", 
+            "storage.service", 
+            "broadcast.service", 
+            PanelController
+        ])
 
     function PanelController($scope, storage, broadcast) {
 
+        broadcast.on()
+        
+        var orientation = { x: 0, y: 0 }
+        var element = { ...orientation, size: 0, src: "", type: "", color: "", focused: false, }
+        
         $scope.lower = {            
             active: false,
             title: "",
-            effect: { on: 600, type: "slide" },
-            scale: { x: 0, y: 0, size: 0 },
-            image: { src: "", x: 0, y: 0, size: 10 },
-            text: { src: "", x: 0, y: 0, size: 7 }
+            scale: { ...element, size: 100 },           // size in 100%
+            image: { ...element, size: 10, },           // size in 10%
+            text: { ...element, size: 7,  },            // size in 7%
+            elements: [...[element]],
         }
         
         $scope.control = {
@@ -38,9 +48,13 @@
         
         //storage.clear()
         $scope.lowers = storage.load()
-        $scope.control = (storage.control !== null) ? storage.control : $scope.control; 
+        $scope.control = (storage.control !== null) ? storage.control : $scope.control;
+        broadcast.send("control", $scope.control)
 
-        broadcast.on()
+
+        broadcast.receive((lower)=> {
+            console.log("RECEIVE", lower)
+        })
 
         $scope.fade = (action)=> {
 
@@ -51,6 +65,7 @@
             }
 
             storage.add($scope.control)
+            broadcast.send("control", $scope.control)
         }
 
         $scope.effectsCtrl = (action)=> {
@@ -61,6 +76,7 @@
             $scope.control.effect.type = $scope.effects[i]
 
             storage.add($scope.control)
+            broadcast.send("control", $scope.control)
         }
 
         $scope.add = (lower)=> {
@@ -86,9 +102,8 @@
 
         $scope.remove = (lower)=> {
             $scope.toggleRemove()
-            storage.remove(angular.copy(lower))
+            storage.remove(lower)
             $scope.lowers = storage.load()
-            $scope.control.select = {}
         }
 
         $scope.select = (lower)=> {
@@ -98,18 +113,16 @@
             unselect()
 
             lower.active = active
-            lower.effect = $scope.control.effect
-            
             $scope.control.select = lower
             
             if(lower.active) {
-                broadcast.send(lower)
+                broadcast.send("lower", lower)
             } else {
-                broadcast.send(null)
+                broadcast.send("lower", null)
                 $scope.updade(lower)
-                reset($scope.control.select)
             }
             
+
             console.log("SELECT: ", $scope.control.select)
         }
 
@@ -149,25 +162,12 @@
             })
         }
 
-        function reset(lower){
-            
-            lower.active = false,
-            lower.title = "",
-
-            lower.scale.x = 0;
-            lower.scale.y = 0; 
-            lower.scale.size = 0
-
-            lower.image.src = ""
-            lower.image.x = 0, 
-            lower.image.y = 0, 
-            lower.image.size = 10
-            
-            lower.text.src = ""
-            lower.text.y = 0
-            lower.text.x = 0 
-            lower.text.size = 7
-            
+        function  unfocused() {
+            $scope.control.select.elements = $scope.control.select.elements.map((element)=> {
+                element.focused = false;
+                $scope.updade($scope.control.select)
+                return element
+            })
         }
 
     }

@@ -62,7 +62,8 @@
 
         that.clear = ()=> {
             console.log("ERASE")
-            window.localStorage.clear()   
+            window.localStorage.clear()
+            alert("Erase!")
         }
     }
 
