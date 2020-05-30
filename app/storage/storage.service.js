@@ -30,7 +30,7 @@
 
         that.add = (lower)=> {
             if (lower.title && lower.text.src.length > 0) {
-                window.localStorage.setItem(lower.title, JSON.stringify(lower));
+                window.localStorage.setItem(lower.title, JSON.stringify(angular.copy(lower)));
                 console.log("ADD", lower)
             }
         }

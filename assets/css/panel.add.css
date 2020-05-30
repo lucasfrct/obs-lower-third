@@ -1,0 +1,21 @@
+.panel-add {
+    padding: 8px;
+}
+
+.panel-add > *:first-child {
+    font-weight: bold;
+    text-align: center;
+    font-size: 1.2em;
+    text-align: center;
+    display: block;
+    padding: 4px 0;
+}
+
+.panel-add > * {
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    margin: auto;
+    padding: 0;
+    background-color: transparent;
+}

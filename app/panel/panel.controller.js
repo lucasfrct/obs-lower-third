@@ -32,10 +32,11 @@
         }
         
         $scope.control = {
+            go: false,
+            add: false,
+            edit: false,
             title: "control-lower", // config
             text: { src: "control-lower" },  // congig
-            modal: false,
-            remove: false,
             effect: { on: 600, type: "slide" },
             select: angular.copy($scope.lower)
         }
@@ -50,11 +51,6 @@
         $scope.lowers = storage.load()
         $scope.control = (storage.control !== null) ? storage.control : $scope.control;
         broadcast.send("control", $scope.control)
-
-
-        broadcast.receive((lower)=> {
-            console.log("RECEIVE", lower)
-        })
 
         $scope.fade = (action)=> {
 
@@ -80,12 +76,18 @@
         }
 
         $scope.add = (lower)=> {
-            $scope.toggleModal()
+            $scope.toggleAdd()
         }
 
         $scope.save = (lower)=> {
-            $scope.toggleModal()
-            storage.add(angular.copy(lower))
+            $scope.toggleAdd()
+            storage.add(lower)
+            $scope.lowers = storage.load()
+        }
+
+        $scope.storage = (lower)=> {
+            $scope.toggleEdit()
+            storage.add(lower)
             $scope.lowers = storage.load()
         }
 
@@ -95,13 +97,12 @@
             $scope.lowers = storage.load()
         }
 
-        $scope.delete = (lower)=> {
-            $scope.toggleRemove()
-            $scope.control.select = lower
+        $scope.edit = (lower)=> {
+            $scope.toggleEdit()
         }
 
         $scope.remove = (lower)=> {
-            $scope.toggleRemove()
+            $scope.toggleEdit()
             storage.remove(lower)
             $scope.lowers = storage.load()
         }
@@ -115,23 +116,28 @@
             lower.active = active
             $scope.control.select = lower
             
-            if(lower.active) {
+            if(lower.active && $scope.control.go) {
                 broadcast.send("lower", lower)
-            } else {
+            }
+
+            if(!lower.active && $scope.control.go){
                 broadcast.send("lower", null)
                 $scope.updade(lower)
             }
             
-
             console.log("SELECT: ", $scope.control.select)
         }
 
-        $scope.toggleModal = ()=> {
-            $scope.control.modal = !$scope.control.modal
+        $scope.toggleAdd = ()=> {
+            $scope.control.add = !$scope.control.add
         }
 
-        $scope.toggleRemove = ()=> {
-            $scope.control.remove = !$scope.control.remove
+        $scope.toggleEdit = ()=> {
+            $scope.control.edit = !$scope.control.edit
+        }
+
+        $scope.toggleGo = ()=> {
+            $scope.control.go = !$scope.control.go
         }
 
         $scope.upImage = (lower)=> {

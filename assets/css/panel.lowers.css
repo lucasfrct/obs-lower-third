@@ -1,0 +1,60 @@
+.panel-lowers {
+    border: solid 1px rgba(0,0,0,1);
+    padding: 4px;
+    display: block;
+    clear: both;
+    overflow-y: auto;
+}
+
+.panel-lowers .lower {
+    cursor: pointer;
+    padding: 8px 12px;
+    height: 48px;
+    width: calc(50% - 8px);
+    vertical-align: top;
+    margin: 4px;
+    float: left;
+    font-weight: 500;
+    border-radius: 2px;
+    box-sizing: border-box;
+    outline: solid 1px rgba(255,255,255, 0.3);
+    max-width: 180px;
+}
+
+.panel-lowers .lower:hover {
+    filter: brightness(1.3);
+    outline: solid 1px rgba(255,255,255, 0.6);
+}
+
+.panel-lowers .lower > * {
+    display: block;
+    position: relative;
+    width: 100%;
+    padding: 0;
+    background-color: transparent;
+    word-wrap: break-word;
+}
+
+.panel-lowers .lower > *:first-child {
+    font-weight: bold;
+    font-size: 0.8em;
+}
+
+.panel-lowers .lower > *:last-child {
+    font-size: 0.6em;
+    margin-top: 4px;
+}
+
+.panel-lowers .lower.lower-add {
+    opacity: 0.6;
+}
+
+.panel-lowers .lower.lower-add:hover {
+    opacity: 0.9;
+}
+
+.panel-lowers .lower.lower-add > * {
+    line-height: 24px;
+    text-align: center;
+    font-size: 1.6em;
+}

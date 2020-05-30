@@ -1,0 +1,54 @@
+.modal,
+.modal > * {
+    box-sizing: border-box;
+    top: 0;
+    left: 0;
+    margin: 0 auto;
+    color: #FFF;
+    background-color: transparent;
+}
+
+.modal {
+    height: 0;
+    width: 0;
+    position: fixed;
+    transition: all 0.3s ease-in-out;
+    position: fixed;
+    opacity: 0.3;
+    z-index: -1;
+    overflow: hidden;
+    padding:0;
+    margin: 0 5%;
+    transition: all 0.3s ease-in-out;
+}
+
+.modal.active {
+    min-width: calc(300px - 30%);
+    width: 90%;
+    height: auto;
+    top: 60px;
+    opacity: 1;
+    z-index: 1000;
+    overflow: visible;
+}
+
+.active.modal::before {
+    content: "";
+    display: block;
+    height: 100vh;
+    width: 100%;
+    background-color: rgba(0,0,0,0.8);
+    z-index: -1;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.modal > .modal-content {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    border: solid 1px rgba(255,255,255,0.2);
+    color: inherit;
+    
+}

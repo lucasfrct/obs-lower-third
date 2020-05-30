@@ -1,0 +1,78 @@
+.panel-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 60px 1fr;
+    width: 100%;
+    min-width: 300px;
+    min-height: 500px;
+    height: 100%;
+    overflow: hidden;
+    border: solid 1px rgba(0,0,0,1);
+    clear: both;
+}
+
+.panel-container .panel-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 80px;
+    grid-template-rows: auto;
+    height: 100%;
+    width: 100%;
+    padding: 8px 4px 0 4px;
+    box-sizing: border-box;
+}
+
+.panel-container .panel-header * {
+    box-sizing: border-box;
+}
+
+.panel-container .panel-header em {
+    font-size: 11px;
+    padding: 0 0 0 8px;
+    margin: 0;
+    font-style: normal;
+}
+
+.panel-container .panel-main {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 24px 1fr 250px;
+}
+
+.panel-container .panel-main .panel-add {}
+
+.panel-container .panel-main .panel-edit {
+    
+}
+
+.go-live {
+    margin: 2px 16px;
+    border: none;
+    outline: 0;
+    height: 24px;
+    border-radius: 3px;
+    
+}
+
+.btn {
+    width: 48px;
+    height: 48px;
+    background-color: rgba(0,0,0,0.1);
+}
+
+.icon {
+    width: 100%;
+}
+
+.icon img {
+    width: 30px;
+}
+
+
+html body .active-btn {
+    outline: solid 2px #F00 !important;
+    animation: blink 1.3s linear infinite;
+}
+
+@keyframes blink{
+    50%{opacity: 0.3;}
+}

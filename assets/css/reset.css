@@ -5,22 +5,74 @@ html, body {
     font-family: 'Roboto Condensed';
 }
 
-.color-primary {
+body.color-primary,
+body .color-primary {
     color: rgba(255,255,255,1);
     background-color: rgba(30, 30, 30, 1);
 }
 
-.color-secondary {
+body .color-secondary {
     color: rgba(255,255,255,1);
     background-color: rgba(47, 47, 47, 1);
 }
 
-.color-teciary {
+body .color-teciary {
     color: rgba(255,255,255,1);
     background-color: rgba(57, 57, 57, 1);
 }
 
-.color-bg {
+body .color-header {
     color: rgba(255,255,255,1);
     background-color: rgba(76, 76, 76, 1);
+}
+
+body .success {
+    color: rgba(255,255,255,1);
+    background-color: #00916E;
+}
+
+body .danger {
+    color: rgba(255,255,255,1);
+    background-color: #B80C09;
+}
+
+body .warning {
+    color: rgba(255,255,255,1);
+    background-color: #E6AF2E;
+}
+
+body .info {
+    color: rgba(255,255,255,1);
+    background-color: #33658A;
+}
+
+body form {
+    padding: 0;
+    margin: auto;
+    position: relative;
+}
+
+body form > *:not(button) {
+    width: calc(100% - 18px);
+    margin: 8px auto;
+    padding: 8px;
+    background-color: transparent;
+    border: solid 1px rgba(0,0,0,1);
+    display: block;
+    color: #FFF;
+}
+
+body .btn {
+    width: auto;
+    max-height: 32px;
+    max-width: 120px;
+    border: none;
+    border-radius: 3px;
+    padding: 0 8px;
+    line-height: 140%;
+    margin: auto 4px;
+}
+
+body .btn:hover {
+    filter: brightness(1.2);
 }

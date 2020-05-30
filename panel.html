@@ -8,9 +8,14 @@
         <link rel="stylesheet" href="assets/css/reset.css">
         <link rel="stylesheet" href="assets/fonts/font.css">
         <link rel="stylesheet" href="assets/css/screen.css">
+        <link rel="stylesheet" href="assets/css/input-spinner.css">
         <link rel="stylesheet" href="assets/css/animation.css">
         
-        <link rel="stylesheet" href="app/panel/panel.css">
+        <link rel="stylesheet" href="assets/css/panel.css">
+        <link rel="stylesheet" href="assets/css/panel.controls.css">
+        <link rel="stylesheet" href="assets/css/panel.lowers.css">
+        <link rel="stylesheet" href="assets/css/modal.css">
+        <link rel="stylesheet" href="assets/css/panel.add.css">
 
         <script src="lib/angular.min.js"></script>
 
@@ -25,25 +30,31 @@
 
     </head>
 
-    <body class="panel-container" ng-controller="panelcontroller">
+    <body class="panel-container color-primary" ng-controller="panelcontroller">
         
-        <header class="panel-header">
+        <header class="panel-header color-header ">
             
             <em>Fade</em>
             
             <em>Effect</em>
 
-            <div class="input-spinner">
+            <em>Go Live</em>
+
+            <div class="input-spinner color-secondary">
                 <span ng-click="fade('-')" >-</span>
                 <input type="text" ng-model="control.effect.on">
                 <span ng-click="fade('+')">+</span>
             </div>
             
-            <div class="input-spinner">
+            <div class="input-spinner color-secondary">
                 <span ng-click="effectsCtrl('-')">-</span>
                 <input type="text" ng-model="control.effect.type" readonly>
                 <span ng-click="effectsCtrl('+')">+</span>
             </div>
+            <button 
+                class="go-live danger {{ (control.go) ? 'active-btn': '' }}"
+                ng-click="toggleGo()"
+            >GO</button>
 
         </header>
         
@@ -89,10 +100,10 @@
             <section class="panel-lowers">
 
                 <div 
-                    class="lower {{ (lo.active) ? 'active' : '' }}" 
+                    class="lower {{ (lo.active) ? 'active-btn' : '' }}" 
                     ng-repeat="lo in lowers" 
                     ng-click="select(lo)"
-                    ng-dblclick="delete(lo)"
+                    ng-dblclick="edit(lo)"
                 >
                     <span>{{ lo.title | limitTo: 15 }}</span>
                     <span>{{ lo.text.src | limitTo: 20 }}</span>
@@ -104,26 +115,29 @@
 
             </section>
 
-            <section class="modal panel-add {{ (control.modal) ? 'active' :'' }}" >
-                <div>
-                    <span>Add Lower Third</span>
+            <section class="modal {{ (control.add) ? 'active' :'' }}" >
+                <div class="modal-content color-secondary panel-add">
+                    <h4>Add Lower Third</h4>
                     <form autocomplete="off">
                         <input name="title" placeholder="Título" ng-model="lower.title" >
                         <input name="image" placeholder="Caminho da imagem" ng-model="lower.image.src">
                         <textarea name="text" placeholder="Texto" rows="4" ng-model="lower.text.src"></textarea>
-                        <button ng-click="save(lower)">Save</button>
-                        <button ng-click="add(lower)">Cancel</button>
+                        <button class="btn success" ng-click="save(lower)">Save</button>
+                        <button class="btn danger" ng-click="toggleAdd(lower)">Cancel</button>
                     </form>
                 </div>
             </section>
 
-            <section class="modal panel-remove {{ (control.remove) ? 'active' :'' }}" >
-                <div>
-                    <span>Remover item:</span>
+            <section class="modal {{ (control.edit) ? 'active' :'' }}" >
+                <div class="modal-content color-secondary panel-add">
+                    <h4>Edit Lower Third:</h4>
                     <form autocomplete="off">
-                        <span>{{ control.select.title}}</span>
-                        <button ng-click="remove(control.select)">Remover</button>
-                        <button ng-click="delete(control.select)">Cancelar</button>
+                        <input name="title" placeholder="Título" ng-model="control.select.title" >
+                        <input name="image" placeholder="Caminho da imagem" ng-model="control.select.image.src">
+                        <textarea name="text" placeholder="Texto" rows="4" ng-model="control.select.text.src"></textarea>
+                        <button class="btn success" ng-click="storage(control.select)">Save</button>
+                        <button class="btn warning" ng-click="remove(control.select)">Remove</button>
+                        <button class="btn danger" ng-click="toggleEdit(control.select)">Cancel</button>
                     </form>
                 </div>
             </section>

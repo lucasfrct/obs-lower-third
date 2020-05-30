@@ -1,0 +1,44 @@
+.input-spinner {
+    margin: 2px;
+    position: relative;
+    height: 24px;
+    max-width: 100px;
+    min-width: 80px;
+    display: grid;
+    grid-template-columns: 1fr 8fr 1fr;
+    border: solid 1px rgba(0,0,0,0.4);
+    border-radius: 3px;
+}
+
+.input-spinner * {
+    margin: 0;
+    padding: 0;
+    position: relative;
+    box-sizing: border-box;
+    height: 100%;
+    line-height: 22px;
+    text-align: center;
+    border: none;
+    outline: 0;
+    color: inherit;
+    background-color: transparent;
+}
+
+.input-spinner > *:first-child,
+.input-spinner > *:last-child {
+    cursor: pointer;
+    min-width: 24px;
+    font-weight: 700;
+    font-size: 22px;
+}
+
+.input-spinner > *:first-child:hover,
+.input-spinner > *:last-child:hover {
+    filter: brightness(0.7);
+}
+
+.input-spinner > *:nth-child(2) {
+    min-width: 30px;
+    font-size: 11px;
+    background-color: rgba(255,255,255,0.08);
+}
