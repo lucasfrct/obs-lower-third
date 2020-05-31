@@ -129,8 +129,7 @@
         }
 
         $scope.reset = ()=> {
-            var reset =confirm("Você está prestea a limpar todas as Lowers desse programa. \n\nVocê deseja confirmar essa acão? \nTODAS AS LOWERS SERÃO DELETADAS.")
-
+            var reset =confirm("TODAS AS LOWERS SERÃO DELETADAS. \n\nVocê deseja confirmar essa acão?")
             if (reset === true) {
                 storage.clear()
             }
