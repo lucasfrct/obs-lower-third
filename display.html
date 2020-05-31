@@ -33,7 +33,14 @@
                 " 
                 style="animation-duration: {{control.effect.on}}ms;"
             >
-
+                <img 
+                    src="{{lower.image.src}}" 
+                    style="
+                        width: {{lower.image.size}}%;
+                        top: {{lower.image.y}}%;
+                        left: {{lower.image.x}}%;
+                    "
+                >
                 <span 
                     style="
                         font-size: calc((((100vw -16px)* 0.77) / 100) * {{lower.text.size}} );
