@@ -128,6 +128,14 @@
             console.log("SELECT: ", $scope.control.select)
         }
 
+        $scope.reset = ()=> {
+            var reset =confirm("Você está prestea a limpar todas as Lowers desse programa. \n\nVocê deseja confirmar essa acão? \nTODAS AS LOWERS SERÃO DELETADAS.")
+
+            if (reset === true) {
+                storage.clear()
+            }
+        }
+
         $scope.toggleAdd = ()=> {
             $scope.control.add = !$scope.control.add
         }

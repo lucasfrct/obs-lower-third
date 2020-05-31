@@ -67,6 +67,28 @@
     width: 30px;
 }
 
+.btn-reset {
+    position: absolute;
+    right: 0;
+    float: right;
+    height: 12px;
+    width: 12px;
+    margin-top: -6px;
+    margin-right: 3px;
+    font-size: 9px;
+    line-height: 11px;
+    padding: 0;
+    opacity: 0.3;
+    background-color: yellow;
+    border-radius: 1px;
+    color: #000;
+    border: none;
+}
+
+.btn-reset:hover {
+    opacity: 0.8;
+
+}
 
 html body .active-btn {
     outline: solid 2px #F00 !important;
