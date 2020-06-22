@@ -25,6 +25,7 @@
         $scope.lower = {            
             active: false,
             title: "",
+            collection: "",
             scale: { ...element, size: 100 },           // size in 100%
             image: { ...element, size: 10, },           // size in 10%
             text: { ...element, size: 7,  },            // size in 7%
@@ -36,28 +37,38 @@
             add: false,
             edit: false,
             title: "control-lower", // config
-            text: { src: "control-lower" },  // congig
+            text: { src: "control-lower" },  // config
             effect: { on: 600, type: "slide" },
-            select: angular.copy($scope.lower)
+            select: angular.copy($scope.lower),
+            collection: false,
         }
 
         $scope.effects = [ "slide", "fade" ]
 
         $scope.lowers = [ ]
         
-        console.log("Enable Local Storage", storage.check())
+        console.log("Enable/Disable Local Storage:", storage.check())
         
         //storage.clear()
         $scope.lowers = storage.load()
         $scope.control = (storage.control !== null) ? storage.control : $scope.control;
+        $scope.collections = storage.collections
         broadcast.send("control", $scope.control)
+
+        $scope.changeCollection = ()=> {    
+            console.log("CHANGE", $scope.control.collection)
+
+            storage.add($scope.control)
+            $scope.lowers = storage.load()
+            $scope.collections = storage.collections
+        }
 
         $scope.fade = (action)=> {
 
             if ("+" == action) {
-                $scope.control.effect.on += 20;
+                $scope.control.effect.on = Number($scope.control.effect.on) + 20;
             } else {
-                $scope.control.effect.on -= 20;
+                $scope.control.effect.on = Number($scope.control.effect.on) - 20;
             }
 
             storage.add($scope.control)
@@ -83,12 +94,16 @@
             $scope.toggleAdd()
             storage.add(lower)
             $scope.lowers = storage.load()
+            $scope.collections = storage.collections
+            $scope.control.collection = lower.collection
         }
 
         $scope.storage = (lower)=> {
             $scope.toggleEdit()
             storage.add(lower)
             $scope.lowers = storage.load()
+            $scope.collections = storage.collections
+            $scope.control.collection = lower.collection
         }
 
         $scope.updade = (lower)=> {
@@ -99,12 +114,15 @@
 
         $scope.edit = (lower)=> {
             $scope.toggleEdit()
+            $scope.control.collection = lower.collection
+            $scope.lower.collection = lower.collection
         }
 
         $scope.remove = (lower)=> {
             $scope.toggleEdit()
             storage.remove(lower)
             $scope.lowers = storage.load()
+            $scope.collections = storage.collections
         }
 
         $scope.select = (lower)=> {
@@ -129,7 +147,7 @@
         }
 
         $scope.reset = ()=> {
-            var reset =confirm("TODAS AS LOWERS SERÃO DELETADAS. \n\nVocê deseja confirmar essa acão?")
+            var reset = confirm("TODAS AS LOWERS SERÃO DELETADAS. \n\nVocê deseja confirmar essa acão?")
             if (reset === true) {
                 storage.clear()
             }

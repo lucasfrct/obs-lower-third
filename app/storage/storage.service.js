@@ -13,7 +13,8 @@
     function PanelService() {
         var that = this
 
-        this.control = null
+        that.control = null
+        that.collections = []
 
         that.check = ()=> {
             var check = false 
@@ -42,6 +43,8 @@
 
         that.load = ()=> {
             var load = []
+            that.collections = []
+
             var obj = Object.keys(localStorage).reduce((obj, title) => {
                 
                 var lower = JSON.parse(localStorage.getItem(title))
@@ -50,6 +53,10 @@
                     console.log("LOAD Controls", lower)
                     that.control = lower
                 } else {
+                    if (that.collections.indexOf(lower.collection) == -1) {
+                        that.collections.push(lower.collection)
+                    }
+                    
                     load.push(lower)
                 }
 

@@ -32,15 +32,26 @@
 
     <body class="panel-container color-primary" ng-controller="panelcontroller">
         
-        <header class="panel-header color-header ">
+        <header class="panel-header color-header noselect">
             
+            <em>Coleção</em>
+
             <em>Fade</em>
             
             <em>Effect</em>
 
             <em> 
-                <button class="btn-reset" ng-click="reset()">R</button>
-                Go Live</em>
+                <button class="btn-reset" ng-click="reset()">R</button>Go Live
+            </em>
+
+            <div class="panel-collection color-secondary">
+                <select 
+                    ng-model="control.collection"
+                    ng-change="changeCollection()"
+                    ng-options="option for option in collections"
+                >
+                </select>
+            </div>
 
             <div class="input-spinner color-secondary">
                 <span ng-click="fade('-')" >-</span>
@@ -62,14 +73,14 @@
         
         <main class="panel-main">
 
-            <div class="panel-controls">
+            <div class="panel-controls noselect">
                 <strong ng-click="downImage(control.select)">-</strong>
                 <strong ng-click="upImage(control.select)">+</strong>
                 <strong ng-click="upText(control.select)">+</strong>
                 <strong ng-click="downText(control.select)">-</strong>
             </div>
             
-            <section id="screen" class="screen preview">
+            <section id="screen" class="screen preview noselect">
                 
                 <div class="show animation {{ (control.select.active) ? 'visible' :'' }}">
                     
@@ -118,11 +129,11 @@
 
             </section>
 
-            <section class="panel-lowers">
+            <section class="panel-lowers noselect">
 
                 <div 
                     class="lower {{ (lo.active) ? 'active-btn' : '' }}" 
-                    ng-repeat="lo in lowers" 
+                    ng-repeat="lo in lowers | filter: { collection: control.collection }" 
                     ng-click="select(lo)"
                     ng-dblclick="edit(lo)"
                 >
@@ -140,6 +151,7 @@
                 <div class="modal-content color-secondary panel-add">
                     <h4>Add Lower Third</h4>
                     <form autocomplete="off">
+                        <input name="collection" placeholder="Coleção" ng-model="lower.collection" >
                         <input name="title" placeholder="Título" ng-model="lower.title" >
                         <input name="image" placeholder="Caminho da imagem" ng-model="lower.image.src">
                         <textarea name="text" placeholder="Texto" rows="4" ng-model="lower.text.src"></textarea>
@@ -153,6 +165,7 @@
                 <div class="modal-content color-secondary panel-add">
                     <h4>Edit Lower Third:</h4>
                     <form autocomplete="off">
+                        <input name="collection" placeholder="Coleção" ng-model="control.select.collection" >
                         <input name="title" placeholder="Título" ng-model="control.select.title" >
                         <input name="image" placeholder="Caminho da imagem" ng-model="control.select.image.src">
                         <textarea name="text" placeholder="Texto" rows="4" ng-model="control.select.text.src"></textarea>
